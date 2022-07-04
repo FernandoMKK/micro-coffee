@@ -158,4 +158,8 @@ void Serial::show_menu()
 	
 	this->transmit("2 - Sair Debug");
 	this->transmitChar(NEWLINE);
+	
+	this->transmit("3 - Mostrar Ingredientes Restantes");
+	this->transmitChar(NEWLINE);
+	this->transmitChar(NEWLINE);
 }

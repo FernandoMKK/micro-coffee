@@ -38,6 +38,8 @@ class DrinkMaker
 		void openValves(volatile unsigned char *drink_index);
 		void closeValves();
 		
+		void show_remaining_ingredients();
+		
 		bool drinkHasCoffee(volatile unsigned char *drink_index);
 		
 		void updateLCD(volatile unsigned char *drink_index);

@@ -19,7 +19,7 @@ LCD lcd;
 //Variables
 volatile unsigned char menu_index = 0;
 
-enum commands {SHOW_PROFIT, DEBUG_MODE, EXIT};
+enum commands {SHOW_PROFIT, DEBUG_MODE, EXIT, SHOW_REMAINING_INGREDIENTS};
 volatile unsigned char _command;
 
 enum states {WAITING_GLASS, SELECTING_DRINK, MILLING_COFFEE, PREPARING_DRINK, REMOVING_GLASS, REFUELLING_MACHINE};
@@ -81,7 +81,8 @@ ISR(USART_RX_vect)
 		_command = 1;
 	if (receivedByte == '2')
 		_command = 2;
-	
+	if (receivedByte == '3')
+	_command = 3;
 
 	switch(_command){
 		case SHOW_PROFIT:
@@ -98,6 +99,9 @@ ISR(USART_RX_vect)
 			drinkMaker.debug_mode = false;
 			serial.show_menu();
 			break;
+			
+		case SHOW_REMAINING_INGREDIENTS:
+			drinkMaker.show_remaining_ingredients();
 	}
 }
 
@@ -108,8 +112,6 @@ ISR(TIMER1_OVF_vect)
 	if(timer1_cicle_counter == 91){
 		show_ok = false;
 		stateHandler = false;
-		serial.transmit("parando moedor");
-		serial.transmitChar(NEWLINE);
 		//drinkMaker.stopMilling();
 		_state = PREPARING_DRINK;
 		lcd.clear();
@@ -123,8 +125,6 @@ ISR(TIMER0_OVF_vect)
 	timer0_cicle_counter++;
 	
 	if(timer0_cicle_counter == timer0_cicle_setpoint){
-		serial.transmit("Fechando Valvula");
-		serial.transmitChar(NEWLINE);
 		lcd.clear();
 		_state = REMOVING_GLASS;
 		show_ok = false;

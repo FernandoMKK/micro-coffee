@@ -233,6 +233,26 @@ void DrinkMaker::show_avaliable_drinks()
 	_delay_ms(1000);
 }
 
+void DrinkMaker::show_remaining_ingredients()
+{
+	char buf[2];
+	serial.transmitChar(NEWLINE);
+	serial.transmit("Cafe restante: ");
+	sprintf(buf, "%d", this->coffee);
+	serial.transmit(buf);
+	
+	serial.transmitChar(NEWLINE);
+	serial.transmit("Leite restante: ");
+	sprintf(buf, "%d", this->milk);
+	serial.transmit(buf);
+	
+	serial.transmitChar(NEWLINE);
+	serial.transmit("Chocolate restante: ");
+	sprintf(buf, "%d", this->chocolate);
+	serial.transmit(buf);
+	serial.transmitChar(NEWLINE);
+}
+
 void DrinkMaker::show_profit()
 {
 	int moneyInt = int(this->money);
