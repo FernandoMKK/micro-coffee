@@ -1002,16 +1002,16 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x4a5f
+.debug_info     0x00000000     0x4a60
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_info    0x000005f4      0x27f display7seg.o
  .debug_info    0x00000873     0x195c drinkMaker.o
  .debug_info    0x000021cf      0xb30 LCD.o
- .debug_info    0x00002cff     0x12eb main.o
- .debug_info    0x00003fea      0x223 motor.o
- .debug_info    0x0000420d      0x5ab serial.o
- .debug_info    0x000047b8      0x2a7 valve.o
+ .debug_info    0x00002cff     0x12ec main.o
+ .debug_info    0x00003feb      0x223 motor.o
+ .debug_info    0x0000420e      0x5ab serial.o
+ .debug_info    0x000047b9      0x2a7 valve.o
 
 .debug_abbrev   0x00000000     0x12d8
  *(.debug_abbrev)
@@ -1024,16 +1024,16 @@ END GROUP
  .debug_abbrev  0x0000100c      0x18b serial.o
  .debug_abbrev  0x00001197      0x141 valve.o
 
-.debug_line     0x00000000     0x18ca
+.debug_line     0x00000000     0x18cb
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x134 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_line    0x00000134      0x179 display7seg.o
  .debug_line    0x000002ad      0x7ee drinkMaker.o
  .debug_line    0x00000a9b      0x3eb LCD.o
- .debug_line    0x00000e86      0x636 main.o
- .debug_line    0x000014bc       0xb1 motor.o
- .debug_line    0x0000156d      0x29c serial.o
- .debug_line    0x00001809       0xc1 valve.o
+ .debug_line    0x00000e86      0x637 main.o
+ .debug_line    0x000014bd       0xb1 motor.o
+ .debug_line    0x0000156e      0x29c serial.o
+ .debug_line    0x0000180a       0xc1 valve.o
 
 .debug_frame    0x00000000      0x748
  *(.debug_frame)
@@ -1045,7 +1045,7 @@ END GROUP
  .debug_frame   0x00000618       0xbc serial.o
  .debug_frame   0x000006d4       0x74 valve.o
 
-.debug_str      0x00000000      0xe75
+.debug_str      0x00000000      0xebc
  *(.debug_str)
  .debug_str     0x00000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_str     0x00000208      0x23b display7seg.o
@@ -1054,13 +1054,13 @@ END GROUP
                                 0x866 (size before relaxing)
  .debug_str     0x00000b2e       0x67 LCD.o
                                 0x33c (size before relaxing)
- .debug_str     0x00000b95      0x225 main.o
-                                0xab0 (size before relaxing)
- .debug_str     0x00000dba       0x2b motor.o
+ .debug_str     0x00000b95      0x26c main.o
+                                0xaa8 (size before relaxing)
+ .debug_str     0x00000e01       0x2b motor.o
                                 0x236 (size before relaxing)
- .debug_str     0x00000de5       0x65 serial.o
+ .debug_str     0x00000e2c       0x65 serial.o
                                 0x332 (size before relaxing)
- .debug_str     0x00000e4a       0x2b valve.o
+ .debug_str     0x00000e91       0x2b valve.o
                                 0x273 (size before relaxing)
 
 .debug_loc      0x00000000     0x2377

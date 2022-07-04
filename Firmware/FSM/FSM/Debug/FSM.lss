@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000268  00000000  00000000  000025dc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00004a5f  00000000  00000000  00002844  2**0
+  6 .debug_info   00004a60  00000000  00000000  00002844  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000012d8  00000000  00000000  000072a3  2**0
+  7 .debug_abbrev 000012d8  00000000  00000000  000072a4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000018ca  00000000  00000000  0000857b  2**0
+  8 .debug_line   000018cb  00000000  00000000  0000857c  2**0
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  00000748  00000000  00000000  00009e48  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000e75  00000000  00000000  0000a590  2**0
+ 10 .debug_str    00000ebc  00000000  00000000  0000a590  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00002377  00000000  00000000  0000b405  2**0
+ 11 .debug_loc    00002377  00000000  00000000  0000b44c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000001f8  00000000  00000000  0000d77c  2**0
+ 12 .debug_ranges 000001f8  00000000  00000000  0000d7c3  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -311,12 +311,6 @@ Disassembly of section .text:
      230:	08 95       	ret
 
 00000232 <_ZN10DrinkMakerC1Ev>:
-	motor.turnOn();
-}
-
-void DrinkMaker::stopMilling()
-{
-	motor.turnOff();
      232:	af 92       	push	r10
      234:	bf 92       	push	r11
      236:	cf 92       	push	r12
@@ -1225,22 +1219,16 @@ void DrinkMaker::stopMilling()
      9de:	08 95       	ret
 
 000009e0 <_ZN10DrinkMaker10openValvesEPVh>:
-}
-
-void DrinkMaker::openValves(volatile unsigned char *drink_index)
-{
      9e0:	0f 93       	push	r16
      9e2:	1f 93       	push	r17
      9e4:	cf 93       	push	r28
      9e6:	df 93       	push	r29
      9e8:	ec 01       	movw	r28, r24
      9ea:	8b 01       	movw	r16, r22
-	lcd.write("Servindo");
      9ec:	68 e4       	ldi	r22, 0x48	; 72
      9ee:	72 e0       	ldi	r23, 0x02	; 2
      9f0:	0e 96       	adiw	r24, 0x0e	; 14
      9f2:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-	switch(*drink_index){
      9f6:	d8 01       	movw	r26, r16
      9f8:	ec 91       	ld	r30, X
      9fa:	8e 2f       	mov	r24, r30
@@ -1253,82 +1241,48 @@ void DrinkMaker::openValves(volatile unsigned char *drink_index)
      a08:	ee 5b       	subi	r30, 0xBE	; 190
      a0a:	ff 4f       	sbci	r31, 0xFF	; 255
      a0c:	0c 94 04 0e 	jmp	0x1c08	; 0x1c08 <__tablejump2__>
-		case 1:
-		coffee_valve.turnOn();
      a10:	ce 01       	movw	r24, r28
      a12:	08 96       	adiw	r24, 0x08	; 8
      a14:	0e 94 da 0b 	call	0x17b4	; 0x17b4 <_ZN5Valve6turnOnEv>
-		break;
      a18:	31 c0       	rjmp	.+98     	; 0xa7c <_ZN10DrinkMaker10openValvesEPVh+0x9c>
-		
-		case 2:
-		coffee_valve.turnOn();
      a1a:	ce 01       	movw	r24, r28
      a1c:	08 96       	adiw	r24, 0x08	; 8
      a1e:	0e 94 da 0b 	call	0x17b4	; 0x17b4 <_ZN5Valve6turnOnEv>
-		milk_valve.turnOn();
      a22:	ce 01       	movw	r24, r28
      a24:	0a 96       	adiw	r24, 0x0a	; 10
      a26:	0e 94 da 0b 	call	0x17b4	; 0x17b4 <_ZN5Valve6turnOnEv>
-		break;
      a2a:	28 c0       	rjmp	.+80     	; 0xa7c <_ZN10DrinkMaker10openValvesEPVh+0x9c>
-		
-		case 3:
-		coffee_valve.turnOn();
      a2c:	ce 01       	movw	r24, r28
      a2e:	08 96       	adiw	r24, 0x08	; 8
      a30:	0e 94 da 0b 	call	0x17b4	; 0x17b4 <_ZN5Valve6turnOnEv>
-		milk_valve.turnOn();
      a34:	ce 01       	movw	r24, r28
      a36:	0a 96       	adiw	r24, 0x0a	; 10
      a38:	0e 94 da 0b 	call	0x17b4	; 0x17b4 <_ZN5Valve6turnOnEv>
-		chocolate_valve.turnOn();
      a3c:	ce 01       	movw	r24, r28
      a3e:	0c 96       	adiw	r24, 0x0c	; 12
      a40:	0e 94 da 0b 	call	0x17b4	; 0x17b4 <_ZN5Valve6turnOnEv>
-		break;
      a44:	1b c0       	rjmp	.+54     	; 0xa7c <_ZN10DrinkMaker10openValvesEPVh+0x9c>
-		
-		case 4:
-		milk_valve.turnOn();
      a46:	ce 01       	movw	r24, r28
      a48:	0a 96       	adiw	r24, 0x0a	; 10
      a4a:	0e 94 da 0b 	call	0x17b4	; 0x17b4 <_ZN5Valve6turnOnEv>
-		break;
      a4e:	16 c0       	rjmp	.+44     	; 0xa7c <_ZN10DrinkMaker10openValvesEPVh+0x9c>
-		
-		case 5:
-		milk_valve.turnOn();
      a50:	ce 01       	movw	r24, r28
      a52:	0a 96       	adiw	r24, 0x0a	; 10
      a54:	0e 94 da 0b 	call	0x17b4	; 0x17b4 <_ZN5Valve6turnOnEv>
-		chocolate_valve.turnOn();
      a58:	ce 01       	movw	r24, r28
      a5a:	0c 96       	adiw	r24, 0x0c	; 12
      a5c:	0e 94 da 0b 	call	0x17b4	; 0x17b4 <_ZN5Valve6turnOnEv>
-		break;
      a60:	0d c0       	rjmp	.+26     	; 0xa7c <_ZN10DrinkMaker10openValvesEPVh+0x9c>
-		
-		case 6:
-		chocolate_valve.turnOn();
      a62:	ce 01       	movw	r24, r28
      a64:	0c 96       	adiw	r24, 0x0c	; 12
      a66:	0e 94 da 0b 	call	0x17b4	; 0x17b4 <_ZN5Valve6turnOnEv>
-		break;
      a6a:	08 c0       	rjmp	.+16     	; 0xa7c <_ZN10DrinkMaker10openValvesEPVh+0x9c>
-		
-		case 7:
-		coffee_valve.turnOn();
      a6c:	ce 01       	movw	r24, r28
      a6e:	08 96       	adiw	r24, 0x08	; 8
      a70:	0e 94 da 0b 	call	0x17b4	; 0x17b4 <_ZN5Valve6turnOnEv>
-		chocolate_valve.turnOn();
      a74:	ce 01       	movw	r24, r28
      a76:	0c 96       	adiw	r24, 0x0c	; 12
      a78:	0e 94 da 0b 	call	0x17b4	; 0x17b4 <_ZN5Valve6turnOnEv>
-		break;
-	}
-}
      a7c:	df 91       	pop	r29
      a7e:	cf 91       	pop	r28
      a80:	1f 91       	pop	r17
@@ -1336,33 +1290,22 @@ void DrinkMaker::openValves(volatile unsigned char *drink_index)
      a84:	08 95       	ret
 
 00000a86 <_ZN10DrinkMaker11closeValvesEv>:
-
-void DrinkMaker::closeValves()
-{
      a86:	cf 93       	push	r28
      a88:	df 93       	push	r29
      a8a:	ec 01       	movw	r28, r24
-	coffee_valve.turnOff();
      a8c:	08 96       	adiw	r24, 0x08	; 8
      a8e:	0e 94 e9 0b 	call	0x17d2	; 0x17d2 <_ZN5Valve7turnOffEv>
-	milk_valve.turnOff();
      a92:	ce 01       	movw	r24, r28
      a94:	0a 96       	adiw	r24, 0x0a	; 10
      a96:	0e 94 e9 0b 	call	0x17d2	; 0x17d2 <_ZN5Valve7turnOffEv>
-	chocolate_valve.turnOff();
      a9a:	ce 01       	movw	r24, r28
      a9c:	0c 96       	adiw	r24, 0x0c	; 12
      a9e:	0e 94 e9 0b 	call	0x17d2	; 0x17d2 <_ZN5Valve7turnOffEv>
-}
      aa2:	df 91       	pop	r29
      aa4:	cf 91       	pop	r28
      aa6:	08 95       	ret
 
 00000aa8 <_ZN10DrinkMaker14drinkHasCoffeeEPVh>:
-
-bool DrinkMaker::drinkHasCoffee(volatile unsigned char *drink_index)
-{
-	switch(*drink_index){
      aa8:	fb 01       	movw	r30, r22
      aaa:	80 81       	ld	r24, Z
      aac:	87 30       	cpi	r24, 0x07	; 7
@@ -1374,43 +1317,15 @@ bool DrinkMaker::drinkHasCoffee(volatile unsigned char *drink_index)
      ab8:	03 c0       	rjmp	.+6      	; 0xac0 <_ZN10DrinkMaker14drinkHasCoffeeEPVh+0x18>
      aba:	87 30       	cpi	r24, 0x07	; 7
      abc:	09 f0       	breq	.+2      	; 0xac0 <_ZN10DrinkMaker14drinkHasCoffeeEPVh+0x18>
-		
-		case 7:
-		return true;
-		break;
-	}
-}
      abe:	08 95       	ret
-
-bool DrinkMaker::drinkHasCoffee(volatile unsigned char *drink_index)
-{
-	switch(*drink_index){
-		case 1:
-		return true;
      ac0:	81 e0       	ldi	r24, 0x01	; 1
      ac2:	08 95       	ret
-		case 3:
-		return true;
-		break;
-		
-		case 4:
-		return false;
      ac4:	80 e0       	ldi	r24, 0x00	; 0
-		
-		case 7:
-		return true;
-		break;
-	}
-}
      ac6:	08 95       	ret
 
 00000ac8 <_ZN10DrinkMaker9updateLCDEPVh>:
-
-void DrinkMaker::updateLCD(volatile unsigned char *drink_index)
-{
      ac8:	cf 93       	push	r28
      aca:	df 93       	push	r29
-	switch(*drink_index){
      acc:	db 01       	movw	r26, r22
      ace:	ec 91       	ld	r30, X
      ad0:	4e 2f       	mov	r20, r30
@@ -1424,166 +1339,117 @@ void DrinkMaker::updateLCD(volatile unsigned char *drink_index)
      ae0:	e7 5b       	subi	r30, 0xB7	; 183
      ae2:	ff 4f       	sbci	r31, 0xFF	; 255
      ae4:	0c 94 04 0e 	jmp	0x1c08	; 0x1c08 <__tablejump2__>
-		case 1:
-		lcd.clear();
      ae8:	ec 01       	movw	r28, r24
      aea:	2e 96       	adiw	r28, 0x0e	; 14
      aec:	ce 01       	movw	r24, r28
      aee:	0e 94 03 07 	call	0xe06	; 0xe06 <_ZN3LCD5clearEv>
-		lcd.write("Cafe Puro");
      af2:	61 e5       	ldi	r22, 0x51	; 81
      af4:	72 e0       	ldi	r23, 0x02	; 2
      af6:	ce 01       	movw	r24, r28
      af8:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		lcd.setCursor_inLine(2);
      afc:	62 e0       	ldi	r22, 0x02	; 2
      afe:	ce 01       	movw	r24, r28
      b00:	0e 94 f4 06 	call	0xde8	; 0xde8 <_ZN3LCD16setCursor_inLineEh>
-		lcd.write("R$ 1.50");
      b04:	6b e5       	ldi	r22, 0x5B	; 91
      b06:	72 e0       	ldi	r23, 0x02	; 2
      b08:	ce 01       	movw	r24, r28
      b0a:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		break;
      b0e:	77 c0       	rjmp	.+238    	; 0xbfe <_ZN10DrinkMaker9updateLCDEPVh+0x136>
-		
-		case 2:
-		lcd.clear();
      b10:	ec 01       	movw	r28, r24
      b12:	2e 96       	adiw	r28, 0x0e	; 14
      b14:	ce 01       	movw	r24, r28
      b16:	0e 94 03 07 	call	0xe06	; 0xe06 <_ZN3LCD5clearEv>
-		lcd.write("Macchiato");
      b1a:	63 e6       	ldi	r22, 0x63	; 99
      b1c:	72 e0       	ldi	r23, 0x02	; 2
      b1e:	ce 01       	movw	r24, r28
      b20:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		lcd.setCursor_inLine(2);
      b24:	62 e0       	ldi	r22, 0x02	; 2
      b26:	ce 01       	movw	r24, r28
      b28:	0e 94 f4 06 	call	0xde8	; 0xde8 <_ZN3LCD16setCursor_inLineEh>
-		lcd.write("R$ 2.00");
      b2c:	6d e6       	ldi	r22, 0x6D	; 109
      b2e:	72 e0       	ldi	r23, 0x02	; 2
      b30:	ce 01       	movw	r24, r28
      b32:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		break;
      b36:	63 c0       	rjmp	.+198    	; 0xbfe <_ZN10DrinkMaker9updateLCDEPVh+0x136>
-		
-		case 3:
-		lcd.clear();
      b38:	ec 01       	movw	r28, r24
      b3a:	2e 96       	adiw	r28, 0x0e	; 14
      b3c:	ce 01       	movw	r24, r28
      b3e:	0e 94 03 07 	call	0xe06	; 0xe06 <_ZN3LCD5clearEv>
-		lcd.write("Mocha");
      b42:	65 e7       	ldi	r22, 0x75	; 117
      b44:	72 e0       	ldi	r23, 0x02	; 2
      b46:	ce 01       	movw	r24, r28
      b48:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		lcd.setCursor_inLine(2);
      b4c:	62 e0       	ldi	r22, 0x02	; 2
      b4e:	ce 01       	movw	r24, r28
      b50:	0e 94 f4 06 	call	0xde8	; 0xde8 <_ZN3LCD16setCursor_inLineEh>
-		lcd.write("R$ 2.75");
      b54:	6b e7       	ldi	r22, 0x7B	; 123
      b56:	72 e0       	ldi	r23, 0x02	; 2
      b58:	ce 01       	movw	r24, r28
      b5a:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		break;
      b5e:	4f c0       	rjmp	.+158    	; 0xbfe <_ZN10DrinkMaker9updateLCDEPVh+0x136>
-		
-		case 4:
-		lcd.clear();
      b60:	ec 01       	movw	r28, r24
      b62:	2e 96       	adiw	r28, 0x0e	; 14
      b64:	ce 01       	movw	r24, r28
      b66:	0e 94 03 07 	call	0xe06	; 0xe06 <_ZN3LCD5clearEv>
-		lcd.write("Leite Puro");
      b6a:	63 e8       	ldi	r22, 0x83	; 131
      b6c:	72 e0       	ldi	r23, 0x02	; 2
      b6e:	ce 01       	movw	r24, r28
      b70:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		lcd.setCursor_inLine(2);
      b74:	62 e0       	ldi	r22, 0x02	; 2
      b76:	ce 01       	movw	r24, r28
      b78:	0e 94 f4 06 	call	0xde8	; 0xde8 <_ZN3LCD16setCursor_inLineEh>
-		lcd.write("R$ 1.00");
      b7c:	6e e8       	ldi	r22, 0x8E	; 142
      b7e:	72 e0       	ldi	r23, 0x02	; 2
      b80:	ce 01       	movw	r24, r28
      b82:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		break;
      b86:	3b c0       	rjmp	.+118    	; 0xbfe <_ZN10DrinkMaker9updateLCDEPVh+0x136>
-		
-		case 5:
-		lcd.clear();
      b88:	ec 01       	movw	r28, r24
      b8a:	2e 96       	adiw	r28, 0x0e	; 14
      b8c:	ce 01       	movw	r24, r28
      b8e:	0e 94 03 07 	call	0xe06	; 0xe06 <_ZN3LCD5clearEv>
-		lcd.write("Achocolatado");
      b92:	66 e9       	ldi	r22, 0x96	; 150
      b94:	72 e0       	ldi	r23, 0x02	; 2
      b96:	ce 01       	movw	r24, r28
      b98:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		lcd.setCursor_inLine(2);
      b9c:	62 e0       	ldi	r22, 0x02	; 2
      b9e:	ce 01       	movw	r24, r28
      ba0:	0e 94 f4 06 	call	0xde8	; 0xde8 <_ZN3LCD16setCursor_inLineEh>
-		lcd.write("R$ 1.80");
      ba4:	63 ea       	ldi	r22, 0xA3	; 163
      ba6:	72 e0       	ldi	r23, 0x02	; 2
      ba8:	ce 01       	movw	r24, r28
      baa:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		break;
      bae:	27 c0       	rjmp	.+78     	; 0xbfe <_ZN10DrinkMaker9updateLCDEPVh+0x136>
-		
-		case 6:
-		lcd.clear();
      bb0:	ec 01       	movw	r28, r24
      bb2:	2e 96       	adiw	r28, 0x0e	; 14
      bb4:	ce 01       	movw	r24, r28
      bb6:	0e 94 03 07 	call	0xe06	; 0xe06 <_ZN3LCD5clearEv>
-		lcd.write("Chocolate");
      bba:	6b ea       	ldi	r22, 0xAB	; 171
      bbc:	72 e0       	ldi	r23, 0x02	; 2
      bbe:	ce 01       	movw	r24, r28
      bc0:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		lcd.setCursor_inLine(2);
      bc4:	62 e0       	ldi	r22, 0x02	; 2
      bc6:	ce 01       	movw	r24, r28
      bc8:	0e 94 f4 06 	call	0xde8	; 0xde8 <_ZN3LCD16setCursor_inLineEh>
-		lcd.write("R$ 1.50");
      bcc:	6b e5       	ldi	r22, 0x5B	; 91
      bce:	72 e0       	ldi	r23, 0x02	; 2
      bd0:	ce 01       	movw	r24, r28
      bd2:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		break;
      bd6:	13 c0       	rjmp	.+38     	; 0xbfe <_ZN10DrinkMaker9updateLCDEPVh+0x136>
-		
-		case 7:
-		lcd.clear();
      bd8:	ec 01       	movw	r28, r24
      bda:	2e 96       	adiw	r28, 0x0e	; 14
      bdc:	ce 01       	movw	r24, r28
      bde:	0e 94 03 07 	call	0xe06	; 0xe06 <_ZN3LCD5clearEv>
-		lcd.write("Chocafe");
      be2:	65 eb       	ldi	r22, 0xB5	; 181
      be4:	72 e0       	ldi	r23, 0x02	; 2
      be6:	ce 01       	movw	r24, r28
      be8:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		lcd.setCursor_inLine(2);
      bec:	62 e0       	ldi	r22, 0x02	; 2
      bee:	ce 01       	movw	r24, r28
      bf0:	0e 94 f4 06 	call	0xde8	; 0xde8 <_ZN3LCD16setCursor_inLineEh>
-		lcd.write("R$ 2.10");
      bf4:	6d eb       	ldi	r22, 0xBD	; 189
      bf6:	72 e0       	ldi	r23, 0x02	; 2
      bf8:	ce 01       	movw	r24, r28
      bfa:	0e 94 e0 06 	call	0xdc0	; 0xdc0 <_ZN3LCD5writeEPc>
-		break;
-	}
      bfe:	df 91       	pop	r29
      c00:	cf 91       	pop	r28
      c02:	08 95       	ret
@@ -1865,7 +1731,7 @@ void DrinkMaker::updateLCD(volatile unsigned char *drink_index)
 
 00000e22 <_Z41__static_initialization_and_destruction_0ii>:
 		else{
-			clr_bit(PORTC, PORTC5);
+			clr_bit(PORTC, PORTC5); //Turn off the on-off led
 			_state = WAITING_GLASS;
 		}	
 	}
@@ -1938,7 +1804,7 @@ DrinkMaker drinkMaker;
      e7c:	93 e0       	ldi	r25, 0x03	; 3
      e7e:	0e 94 68 01 	call	0x2d0	; 0x2d0 <_ZN10DrinkMakerD1Ev>
 		else{
-			clr_bit(PORTC, PORTC5);
+			clr_bit(PORTC, PORTC5); //Turn off the on-off led
 			_state = WAITING_GLASS;
 		}	
 	}
@@ -1950,10 +1816,10 @@ DrinkMaker drinkMaker;
      e8a:	08 95       	ret
 
 00000e8c <__vector_1>:
-volatile bool show_ok = false;
 volatile bool stateHandler = false;
-volatile bool stateHandler2 = false;
+volatile bool stateHandler2 = false; //This handler is needed because some bug occurs at the state machine and interruptions...
 
+//External Interrupt 0 function ('select' button)
 ISR(INT0_vect)
 {
      e8c:	1f 92       	push	r1
@@ -1990,7 +1856,8 @@ ISR(INT0_vect)
 			menu_index = 1;
      eca:	81 e0       	ldi	r24, 0x01	; 1
      ecc:	80 93 b6 03 	sts	0x03B6, r24	; 0x8003b6 <menu_index>
-			
+		
+		//Updates 7seg and LCD displays	
 		_7seg.updateDisplay(&menu_index);
      ed0:	66 eb       	ldi	r22, 0xB6	; 182
      ed2:	73 e0       	ldi	r23, 0x03	; 3
@@ -2025,6 +1892,7 @@ ISR(INT0_vect)
 
 00000f0a <__vector_2>:
 
+//External Interrupt 1 function ('enter' button)
 ISR(INT1_vect)
 {
      f0a:	1f 92       	push	r1
@@ -2044,10 +1912,11 @@ ISR(INT1_vect)
      f26:	bf 93       	push	r27
      f28:	ef 93       	push	r30
      f2a:	ff 93       	push	r31
+	//If enter was pressed, try to make drink
 	if(tst_bit(PIND, PORTD2) == 0){
      f2c:	4a 99       	sbic	0x09, 2	; 9
      f2e:	1a c0       	rjmp	.+52     	; 0xf64 <__vector_2+0x5a>
-		drinkMaker.makeDrink(&menu_index);
+		drinkMaker.makeDrink(&menu_index); //Make drink if it's available
      f30:	66 eb       	ldi	r22, 0xB6	; 182
      f32:	73 e0       	ldi	r23, 0x03	; 3
      f34:	81 ec       	ldi	r24, 0xC1	; 193
@@ -2078,6 +1947,7 @@ ISR(INT1_vect)
 		}
 		
 	}
+	//If enter and select buttons were pressed, refuel the machine
 	else{
 		_state = REFUELLING_MACHINE;
      f64:	85 e0       	ldi	r24, 0x05	; 5
@@ -2108,6 +1978,7 @@ ISR(INT1_vect)
 
 00000f90 <__vector_18>:
 
+//USART Received Data Interrupt
 ISR(USART_RX_vect)
 {
      f90:	1f 92       	push	r1
@@ -2164,15 +2035,15 @@ ISR(USART_RX_vect)
      fea:	83 30       	cpi	r24, 0x03	; 3
      fec:	a9 f0       	breq	.+42     	; 0x1018 <__vector_18+0x88>
      fee:	18 c0       	rjmp	.+48     	; 0x1020 <__vector_18+0x90>
-		case SHOW_PROFIT:
-			drinkMaker.show_profit();
+		case SHOW_PROFIT: //Show profit acquired until the moment
+			drinkMaker.show_profit(); 
      ff0:	81 ec       	ldi	r24, 0xC1	; 193
      ff2:	93 e0       	ldi	r25, 0x03	; 3
      ff4:	0e 94 66 04 	call	0x8cc	; 0x8cc <_ZN10DrinkMaker11show_profitEv>
 			break;
      ff8:	13 c0       	rjmp	.+38     	; 0x1020 <__vector_18+0x90>
 		
-		case DEBUG_MODE:
+		case DEBUG_MODE: //Enables debug mode at USART
 			debug_mode = true;
      ffa:	81 e0       	ldi	r24, 0x01	; 1
      ffc:	80 93 ad 03 	sts	0x03AD, r24	; 0x8003ad <debug_mode>
@@ -2181,7 +2052,7 @@ ISR(USART_RX_vect)
 			break;
     1004:	0d c0       	rjmp	.+26     	; 0x1020 <__vector_18+0x90>
 		
-		case EXIT:
+		case EXIT: //Disable debug mode at USART
 			debug_mode = false;
     1006:	10 92 ad 03 	sts	0x03AD, r1	; 0x8003ad <debug_mode>
 			drinkMaker.debug_mode = false;
@@ -2193,7 +2064,7 @@ ISR(USART_RX_vect)
 			break;
     1016:	04 c0       	rjmp	.+8      	; 0x1020 <__vector_18+0x90>
 			
-		case SHOW_REMAINING_INGREDIENTS:
+		case SHOW_REMAINING_INGREDIENTS: //Show remaining ingredients
 			drinkMaker.show_remaining_ingredients();
     1018:	81 ec       	ldi	r24, 0xC1	; 193
     101a:	93 e0       	ldi	r25, 0x03	; 3
@@ -2220,6 +2091,7 @@ ISR(USART_RX_vect)
 
 00001042 <__vector_13>:
 
+//Timer 1 Overflow Interrupt, used to stop milling the coffee
 ISR(TIMER1_OVF_vect)
 {
     1042:	1f 92       	push	r1
@@ -2246,6 +2118,7 @@ ISR(TIMER1_OVF_vect)
     106e:	90 93 af 03 	sts	0x03AF, r25	; 0x8003af <timer1_cicle_counter+0x1>
     1072:	80 93 ae 03 	sts	0x03AE, r24	; 0x8003ae <timer1_cicle_counter>
 	
+	//91 means approximately 3 seconds
 	if(timer1_cicle_counter == 91){
     1076:	80 91 ae 03 	lds	r24, 0x03AE	; 0x8003ae <timer1_cicle_counter>
     107a:	90 91 af 03 	lds	r25, 0x03AF	; 0x8003af <timer1_cicle_counter+0x1>
@@ -2290,6 +2163,7 @@ ISR(TIMER1_OVF_vect)
 
 000010c4 <__vector_16>:
 
+//Timer 0 Overflow Interrupt, used to close the valves
 ISR(TIMER0_OVF_vect)
 {
     10c4:	1f 92       	push	r1
@@ -2316,7 +2190,7 @@ ISR(TIMER0_OVF_vect)
     10f0:	90 93 b3 03 	sts	0x03B3, r25	; 0x8003b3 <timer0_cicle_counter+0x1>
     10f4:	80 93 b2 03 	sts	0x03B2, r24	; 0x8003b2 <timer0_cicle_counter>
 	
-	if(timer0_cicle_counter == timer0_cicle_setpoint){
+	if(timer0_cicle_counter == timer0_cicle_setpoint){ //The set-point depends of what drink was selected 
     10f8:	20 91 b2 03 	lds	r18, 0x03B2	; 0x8003b2 <timer0_cicle_counter>
     10fc:	30 91 b3 03 	lds	r19, 0x03B3	; 0x8003b3 <timer0_cicle_counter+0x1>
     1100:	80 91 b0 03 	lds	r24, 0x03B0	; 0x8003b0 <timer0_cicle_setpoint>
@@ -2359,6 +2233,7 @@ ISR(TIMER0_OVF_vect)
 
 0000114a <_Z16setTimerSetPointPVh>:
 
+//Function to select the set-point to determinate how long the valves will be open
 void setTimerSetPoint(volatile unsigned char *menu_index)
 {
 	switch(*menu_index){
@@ -2423,7 +2298,7 @@ void setTimerSetPoint(volatile unsigned char *menu_index)
 
 int main(void)
 {
-	lcd.init();
+	lcd.init(); //Initializes LCD
     11c6:	87 eb       	ldi	r24, 0xB7	; 183
     11c8:	93 e0       	ldi	r25, 0x03	; 3
     11ca:	0e 94 5a 06 	call	0xcb4	; 0xcb4 <_ZN3LCD4initEv>
@@ -2479,7 +2354,7 @@ int main(void)
 	EIMSK = (1<<INT1) | (1<<INT0); //Enables INT0 and INT1
     1210:	83 e0       	ldi	r24, 0x03	; 3
     1212:	8d bb       	out	0x1d, r24	; 29
-	sei();
+	sei(); //Enables global interrupt
     1214:	78 94       	sei
 	
 	//Direction ports configuration
@@ -2500,7 +2375,7 @@ int main(void)
     122a:	80 62       	ori	r24, 0x20	; 32
     122c:	87 b9       	out	0x07, r24	; 7
 	
-	_7seg.attachToPorts(PORTC0, PORTC1, PORTC2, PORTC3);
+	_7seg.attachToPorts(PORTC0, PORTC1, PORTC2, PORTC3); //Attachs the 7seg display at C0, C1, C2 and C3 ports
     122e:	03 e0       	ldi	r16, 0x03	; 3
     1230:	22 e0       	ldi	r18, 0x02	; 2
     1232:	41 e0       	ldi	r20, 0x01	; 1
@@ -2508,7 +2383,7 @@ int main(void)
     1236:	88 eb       	ldi	r24, 0xB8	; 184
     1238:	93 e0       	ldi	r25, 0x03	; 3
     123a:	0e 94 85 00 	call	0x10a	; 0x10a <_ZN11Display7seg13attachToPortsEhhhh>
-	serial.show_menu();
+	serial.show_menu(); //Shows the menu at serial
     123e:	8c eb       	ldi	r24, 0xBC	; 188
     1240:	93 e0       	ldi	r25, 0x03	; 3
     1242:	0e 94 9e 0b 	call	0x173c	; 0x173c <_ZN6Serial9show_menuEv>
@@ -2517,12 +2392,12 @@ int main(void)
     1248:	93 e0       	ldi	r25, 0x03	; 3
     124a:	0e 94 03 07 	call	0xe06	; 0xe06 <_ZN3LCD5clearEv>
 	
-	_state = WAITING_GLASS;
+	_state = WAITING_GLASS; //Initial state of the machine
     124e:	10 92 b4 03 	sts	0x03B4, r1	; 0x8003b4 <_state>
 	
 	while (1)
 	{
-		if(tst_bit(PINC, PORTC4) > 0){
+		if(tst_bit(PINC, PORTC4) > 0){ //If the start-stop button is pressed...
     1252:	34 9b       	sbis	0x06, 4	; 6
     1254:	49 c1       	rjmp	.+658    	; 0x14e8 <main+0x322>
 			set_bit(PORTC, PORTC5); //Turns on LED on/off.
@@ -2597,6 +2472,7 @@ int main(void)
     12ca:	80 93 ac 03 	sts	0x03AC, r24	; 0x8003ac <show_ok>
 				}
 				
+				//If the glass is present
 				if(tst_bit(PINB, PORTB7) > 0){
     12ce:	1f 9b       	sbis	0x03, 7	; 3
     12d0:	05 c0       	rjmp	.+10     	; 0x12dc <main+0x116>
@@ -2686,7 +2562,7 @@ int main(void)
     1360:	80 91 ab 03 	lds	r24, 0x03AB	; 0x8003ab <stateHandler>
     1364:	81 11       	cpse	r24, r1
     1366:	75 cf       	rjmp	.-278    	; 0x1252 <main+0x8c>
-					if(drinkMaker.drinkHasCoffee(&menu_index)){
+					if(drinkMaker.drinkHasCoffee(&menu_index)){ //Verifies if the selected drink has coffee to mill
     1368:	66 eb       	ldi	r22, 0xB6	; 182
     136a:	73 e0       	ldi	r23, 0x03	; 3
     136c:	81 ec       	ldi	r24, 0xC1	; 193
@@ -2697,7 +2573,7 @@ int main(void)
 						stateHandler = true;
     1378:	81 e0       	ldi	r24, 0x01	; 1
     137a:	80 93 ab 03 	sts	0x03AB, r24	; 0x8003ab <stateHandler>
-						drinkMaker.millCoffee();
+						drinkMaker.millCoffee(); //Enables the motor to mill the coffee
     137e:	81 ec       	ldi	r24, 0xC1	; 193
     1380:	93 e0       	ldi	r25, 0x03	; 3
     1382:	0e 94 d2 04 	call	0x9a4	; 0x9a4 <_ZN10DrinkMaker10millCoffeeEv>
@@ -2763,11 +2639,11 @@ int main(void)
     13e8:	87 eb       	ldi	r24, 0xB7	; 183
     13ea:	93 e0       	ldi	r25, 0x03	; 3
     13ec:	0e 94 03 07 	call	0xe06	; 0xe06 <_ZN3LCD5clearEv>
-					setTimerSetPoint(&menu_index);
+					setTimerSetPoint(&menu_index); //Sets the set-point to open the valves
     13f0:	86 eb       	ldi	r24, 0xB6	; 182
     13f2:	93 e0       	ldi	r25, 0x03	; 3
     13f4:	0e 94 a5 08 	call	0x114a	; 0x114a <_Z16setTimerSetPointPVh>
-					drinkMaker.openValves(&menu_index);
+					drinkMaker.openValves(&menu_index); //Open the respective valves
     13f8:	66 eb       	ldi	r22, 0xB6	; 182
     13fa:	73 e0       	ldi	r23, 0x03	; 3
     13fc:	81 ec       	ldi	r24, 0xC1	; 193
@@ -2784,7 +2660,7 @@ int main(void)
 				case REMOVING_GLASS:
 				TCCR0B = 0; //TC0 disabled
     140a:	15 bc       	out	0x25, r1	; 37
-				drinkMaker.closeValves();
+				drinkMaker.closeValves(); //Close all the valves
     140c:	81 ec       	ldi	r24, 0xC1	; 193
     140e:	93 e0       	ldi	r25, 0x03	; 3
     1410:	0e 94 43 05 	call	0xa86	; 0xa86 <_ZN10DrinkMaker11closeValvesEv>
@@ -2833,7 +2709,10 @@ int main(void)
     1462:	00 c0       	rjmp	.+0      	; 0x1464 <main+0x29e>
     1464:	00 00       	nop
 				}
-				_delay_ms(100);
+				
+				_delay_ms(100); //Avoids USART spam
+				
+				//If the glass was removed
 				if(tst_bit(PINB, PORTB7) == 0){
     1466:	1f 99       	sbic	0x03, 7	; 3
     1468:	f4 ce       	rjmp	.-536    	; 0x1252 <main+0x8c>
@@ -2900,7 +2779,7 @@ int main(void)
     14d8:	00 00       	nop
 					_delay_ms(100);
 				}
-				drinkMaker.refuel();
+				drinkMaker.refuel(); //Refuel the machine
     14da:	81 ec       	ldi	r24, 0xC1	; 193
     14dc:	93 e0       	ldi	r25, 0x03	; 3
     14de:	0e 94 85 01 	call	0x30a	; 0x30a <_ZN10DrinkMaker6refuelEv>
@@ -2911,7 +2790,7 @@ int main(void)
 			}
 		}
 		else{
-			clr_bit(PORTC, PORTC5);
+			clr_bit(PORTC, PORTC5); //Turn off the on-off led
     14e8:	88 b1       	in	r24, 0x08	; 8
     14ea:	8f 7d       	andi	r24, 0xDF	; 223
     14ec:	88 b9       	out	0x08, r24	; 8
@@ -2966,25 +2845,12 @@ int main(void)
     153a:	08 95       	ret
 
 0000153c <_ZN6SerialD1Ev>:
-	clr_bit(UCSR0C, UMSEL00);
-	
-	sei(); //Enables global interrupt
-}
-
-Serial::~Serial()
     153c:	08 95       	ret
 
 0000153e <_ZN6Serial11setBaudRateEj>:
-	//dtor
-}
-
-void Serial::setBaudRate(unsigned int baud_rate)
-{
-	this->bd = baud_rate;
     153e:	fc 01       	movw	r30, r24
     1540:	71 83       	std	Z+1, r23	; 0x01
     1542:	60 83       	st	Z, r22
-	unsigned int baud_prescale = (((F_CPU / (this->bd*16UL)))-1);
     1544:	cb 01       	movw	r24, r22
     1546:	a0 e0       	ldi	r26, 0x00	; 0
     1548:	b0 e0       	ldi	r27, 0x00	; 0
@@ -3013,50 +2879,30 @@ void Serial::setBaudRate(unsigned int baud_rate)
     1576:	0e 94 e2 0d 	call	0x1bc4	; 0x1bc4 <__udivmodsi4>
     157a:	21 50       	subi	r18, 0x01	; 1
     157c:	31 09       	sbc	r19, r1
-	
-	UBRR0H = (baud_prescale >> 8);
     157e:	30 93 c5 00 	sts	0x00C5, r19	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7f80c5>
-	UBRR0L = baud_prescale;
     1582:	20 93 c4 00 	sts	0x00C4, r18	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
     1586:	08 95       	ret
 
 00001588 <_ZN6Serial10setStopBitEh>:
-}
-
-void Serial::setStopBit(unsigned char stop_bit)
-{
-	this->sb = stop_bit;
     1588:	fc 01       	movw	r30, r24
     158a:	62 83       	std	Z+2, r22	; 0x02
-	
-	switch(this->sb){
     158c:	61 30       	cpi	r22, 0x01	; 1
     158e:	19 f0       	breq	.+6      	; 0x1596 <_ZN6Serial10setStopBitEh+0xe>
     1590:	62 30       	cpi	r22, 0x02	; 2
     1592:	39 f0       	breq	.+14     	; 0x15a2 <_ZN6Serial10setStopBitEh+0x1a>
     1594:	0c c0       	rjmp	.+24     	; 0x15ae <_ZN6Serial10setStopBitEh+0x26>
-		case 1:
-			clr_bit(UCSR0C, USBS0);
     1596:	e2 ec       	ldi	r30, 0xC2	; 194
     1598:	f0 e0       	ldi	r31, 0x00	; 0
     159a:	80 81       	ld	r24, Z
     159c:	87 7f       	andi	r24, 0xF7	; 247
     159e:	80 83       	st	Z, r24
-			break;
     15a0:	08 95       	ret
-		
-		case 2:
-			set_bit(UCSR0C, USBS0);
     15a2:	e2 ec       	ldi	r30, 0xC2	; 194
     15a4:	f0 e0       	ldi	r31, 0x00	; 0
     15a6:	80 81       	ld	r24, Z
     15a8:	88 60       	ori	r24, 0x08	; 8
     15aa:	80 83       	st	Z, r24
-			break;
     15ac:	08 95       	ret
-			
-		default:
-			clr_bit(UCSR0C, USBS0);
     15ae:	e2 ec       	ldi	r30, 0xC2	; 194
     15b0:	f0 e0       	ldi	r31, 0x00	; 0
     15b2:	80 81       	ld	r24, Z
@@ -3065,16 +2911,8 @@ void Serial::setStopBit(unsigned char stop_bit)
     15b8:	08 95       	ret
 
 000015ba <_ZN6Serial11setByteSizeEh>:
-		
-}
-
-void Serial::setByteSize(unsigned char byte_size)
-{
-	this->bs = byte_size;
     15ba:	fc 01       	movw	r30, r24
     15bc:	63 83       	std	Z+3, r22	; 0x03
-	
-	switch(this->bs){
     15be:	67 30       	cpi	r22, 0x07	; 7
     15c0:	19 f1       	breq	.+70     	; 0x1608 <_ZN6Serial11setByteSizeEh+0x4e>
     15c2:	28 f4       	brcc	.+10     	; 0x15ce <_ZN6Serial11setByteSizeEh+0x14>
@@ -3088,124 +2926,82 @@ void Serial::setByteSize(unsigned char byte_size)
     15d2:	69 30       	cpi	r22, 0x09	; 9
     15d4:	89 f1       	breq	.+98     	; 0x1638 <_ZN6Serial11setByteSizeEh+0x7e>
     15d6:	3c c0       	rjmp	.+120    	; 0x1650 <_ZN6Serial11setByteSizeEh+0x96>
-		case 5:
-			clr_bit(UCSR0C, UCSZ02);
     15d8:	e2 ec       	ldi	r30, 0xC2	; 194
     15da:	f0 e0       	ldi	r31, 0x00	; 0
     15dc:	80 81       	ld	r24, Z
     15de:	8b 7f       	andi	r24, 0xFB	; 251
     15e0:	80 83       	st	Z, r24
-			clr_bit(UCSR0C, UCSZ01);
     15e2:	80 81       	ld	r24, Z
     15e4:	8b 7f       	andi	r24, 0xFB	; 251
     15e6:	80 83       	st	Z, r24
-			clr_bit(UCSR0C, UCSZ00);
     15e8:	80 81       	ld	r24, Z
     15ea:	8d 7f       	andi	r24, 0xFD	; 253
     15ec:	80 83       	st	Z, r24
-			break;
     15ee:	08 95       	ret
-			
-		case 6:
-			clr_bit(UCSR0C, UCSZ02);
     15f0:	e2 ec       	ldi	r30, 0xC2	; 194
     15f2:	f0 e0       	ldi	r31, 0x00	; 0
     15f4:	80 81       	ld	r24, Z
     15f6:	8b 7f       	andi	r24, 0xFB	; 251
     15f8:	80 83       	st	Z, r24
-			clr_bit(UCSR0C, UCSZ01);
     15fa:	80 81       	ld	r24, Z
     15fc:	8b 7f       	andi	r24, 0xFB	; 251
     15fe:	80 83       	st	Z, r24
-			set_bit(UCSR0C, UCSZ00);
     1600:	80 81       	ld	r24, Z
     1602:	82 60       	ori	r24, 0x02	; 2
     1604:	80 83       	st	Z, r24
-			break;
     1606:	08 95       	ret
-			
-		case 7:
-			clr_bit(UCSR0C, UCSZ02);
     1608:	e2 ec       	ldi	r30, 0xC2	; 194
     160a:	f0 e0       	ldi	r31, 0x00	; 0
     160c:	80 81       	ld	r24, Z
     160e:	8b 7f       	andi	r24, 0xFB	; 251
     1610:	80 83       	st	Z, r24
-			set_bit(UCSR0C, UCSZ01);
     1612:	80 81       	ld	r24, Z
     1614:	84 60       	ori	r24, 0x04	; 4
     1616:	80 83       	st	Z, r24
-			clr_bit(UCSR0C, UCSZ00);
     1618:	80 81       	ld	r24, Z
     161a:	8d 7f       	andi	r24, 0xFD	; 253
     161c:	80 83       	st	Z, r24
-			break;
     161e:	08 95       	ret
-			
-		case 8:
-			clr_bit(UCSR0C, UCSZ02);
     1620:	e2 ec       	ldi	r30, 0xC2	; 194
     1622:	f0 e0       	ldi	r31, 0x00	; 0
     1624:	80 81       	ld	r24, Z
     1626:	8b 7f       	andi	r24, 0xFB	; 251
     1628:	80 83       	st	Z, r24
-			set_bit(UCSR0C, UCSZ01);
     162a:	80 81       	ld	r24, Z
     162c:	84 60       	ori	r24, 0x04	; 4
     162e:	80 83       	st	Z, r24
-			set_bit(UCSR0C, UCSZ00);
     1630:	80 81       	ld	r24, Z
     1632:	82 60       	ori	r24, 0x02	; 2
     1634:	80 83       	st	Z, r24
-			break;
     1636:	08 95       	ret
-			
-		case 9:
-			set_bit(UCSR0C, UCSZ02);
     1638:	e2 ec       	ldi	r30, 0xC2	; 194
     163a:	f0 e0       	ldi	r31, 0x00	; 0
     163c:	80 81       	ld	r24, Z
     163e:	84 60       	ori	r24, 0x04	; 4
     1640:	80 83       	st	Z, r24
-			set_bit(UCSR0C, UCSZ01);
     1642:	80 81       	ld	r24, Z
     1644:	84 60       	ori	r24, 0x04	; 4
     1646:	80 83       	st	Z, r24
-			set_bit(UCSR0C, UCSZ00);
     1648:	80 81       	ld	r24, Z
     164a:	82 60       	ori	r24, 0x02	; 2
     164c:	80 83       	st	Z, r24
-			break;
     164e:	08 95       	ret
-			
-		default:
-			clr_bit(UCSR0C, UCSZ02);
     1650:	e2 ec       	ldi	r30, 0xC2	; 194
     1652:	f0 e0       	ldi	r31, 0x00	; 0
     1654:	80 81       	ld	r24, Z
     1656:	8b 7f       	andi	r24, 0xFB	; 251
     1658:	80 83       	st	Z, r24
-			set_bit(UCSR0C, UCSZ01);
     165a:	80 81       	ld	r24, Z
     165c:	84 60       	ori	r24, 0x04	; 4
     165e:	80 83       	st	Z, r24
-			set_bit(UCSR0C, UCSZ00);
     1660:	80 81       	ld	r24, Z
     1662:	82 60       	ori	r24, 0x02	; 2
     1664:	80 83       	st	Z, r24
     1666:	08 95       	ret
 
 00001668 <_ZN6Serial9setParityEh>:
-	}
-}
-
-void Serial::setParity(unsigned char parity)
-{
-	this->pr = parity;
     1668:	fc 01       	movw	r30, r24
     166a:	64 83       	std	Z+4, r22	; 0x04
-	
-	switch(this->pr){
     166c:	6e 34       	cpi	r22, 0x4E	; 78
     166e:	29 f0       	breq	.+10     	; 0x167a <_ZN6Serial9setParityEh+0x12>
     1670:	6f 34       	cpi	r22, 0x4F	; 79
@@ -3213,216 +3009,133 @@ void Serial::setParity(unsigned char parity)
     1674:	65 34       	cpi	r22, 0x45	; 69
     1676:	e1 f4       	brne	.+56     	; 0x16b0 <_ZN6Serial9setParityEh+0x48>
     1678:	09 c0       	rjmp	.+18     	; 0x168c <_ZN6Serial9setParityEh+0x24>
-		case 'N':
-			clr_bit(UCSR0C, UPM01);
     167a:	e2 ec       	ldi	r30, 0xC2	; 194
     167c:	f0 e0       	ldi	r31, 0x00	; 0
     167e:	80 81       	ld	r24, Z
     1680:	8f 7d       	andi	r24, 0xDF	; 223
     1682:	80 83       	st	Z, r24
-			clr_bit(UCSR0C, UPM00);
     1684:	80 81       	ld	r24, Z
     1686:	8f 7e       	andi	r24, 0xEF	; 239
     1688:	80 83       	st	Z, r24
-			break;
     168a:	08 95       	ret
-		
-		case 'E':
-			set_bit(UCSR0C, UPM01);
     168c:	e2 ec       	ldi	r30, 0xC2	; 194
     168e:	f0 e0       	ldi	r31, 0x00	; 0
     1690:	80 81       	ld	r24, Z
     1692:	80 62       	ori	r24, 0x20	; 32
     1694:	80 83       	st	Z, r24
-			set_bit(UCSR0C, UPM00);
     1696:	80 81       	ld	r24, Z
     1698:	80 61       	ori	r24, 0x10	; 16
     169a:	80 83       	st	Z, r24
-			break;
     169c:	08 95       	ret
-		
-		case 'O':
-			set_bit(UCSR0C, UPM01);
     169e:	e2 ec       	ldi	r30, 0xC2	; 194
     16a0:	f0 e0       	ldi	r31, 0x00	; 0
     16a2:	80 81       	ld	r24, Z
     16a4:	80 62       	ori	r24, 0x20	; 32
     16a6:	80 83       	st	Z, r24
-			clr_bit(UCSR0C, UPM00);
     16a8:	80 81       	ld	r24, Z
     16aa:	8f 7e       	andi	r24, 0xEF	; 239
     16ac:	80 83       	st	Z, r24
-			break;
     16ae:	08 95       	ret
-		default:
-			clr_bit(UCSR0C, UPM01);
     16b0:	e2 ec       	ldi	r30, 0xC2	; 194
     16b2:	f0 e0       	ldi	r31, 0x00	; 0
     16b4:	80 81       	ld	r24, Z
     16b6:	8f 7d       	andi	r24, 0xDF	; 223
     16b8:	80 83       	st	Z, r24
-			clr_bit(UCSR0C, UPM00);
     16ba:	80 81       	ld	r24, Z
     16bc:	8f 7e       	andi	r24, 0xEF	; 239
     16be:	80 83       	st	Z, r24
     16c0:	08 95       	ret
 
 000016c2 <_ZN6SerialC1Ev>:
- *  Author: Fernando Kirchner
- */ 
-
-#include "serial.h"
-
-Serial::Serial()
     16c2:	cf 93       	push	r28
     16c4:	df 93       	push	r29
     16c6:	ec 01       	movw	r28, r24
-{
-	setBaudRate(9600);
     16c8:	60 e8       	ldi	r22, 0x80	; 128
     16ca:	75 e2       	ldi	r23, 0x25	; 37
     16cc:	0e 94 9f 0a 	call	0x153e	; 0x153e <_ZN6Serial11setBaudRateEj>
-	setStopBit(1);
     16d0:	61 e0       	ldi	r22, 0x01	; 1
     16d2:	ce 01       	movw	r24, r28
     16d4:	0e 94 c4 0a 	call	0x1588	; 0x1588 <_ZN6Serial10setStopBitEh>
-	setByteSize(8);
     16d8:	68 e0       	ldi	r22, 0x08	; 8
     16da:	ce 01       	movw	r24, r28
     16dc:	0e 94 dd 0a 	call	0x15ba	; 0x15ba <_ZN6Serial11setByteSizeEh>
-	setParity('N');
     16e0:	6e e4       	ldi	r22, 0x4E	; 78
     16e2:	ce 01       	movw	r24, r28
     16e4:	0e 94 34 0b 	call	0x1668	; 0x1668 <_ZN6Serial9setParityEh>
-	
-	/*-- Setting direction registers --*/
-	DDRD |= 0b00000010;
     16e8:	8a b1       	in	r24, 0x0a	; 10
     16ea:	82 60       	ori	r24, 0x02	; 2
     16ec:	8a b9       	out	0x0a, r24	; 10
-	
-	/* -- Setting serial registers --*/
-	UCSR0B = (1<<TXEN0) | (1<<RXEN0); //Enables the TX and RX
     16ee:	e1 ec       	ldi	r30, 0xC1	; 193
     16f0:	f0 e0       	ldi	r31, 0x00	; 0
     16f2:	88 e1       	ldi	r24, 0x18	; 24
     16f4:	80 83       	st	Z, r24
-	UCSR0B |= (1<<RXCIE0); //Enables the RX interrupt
     16f6:	80 81       	ld	r24, Z
     16f8:	80 68       	ori	r24, 0x80	; 128
     16fa:	80 83       	st	Z, r24
-	
-	//Sets assync mode
-	clr_bit(UCSR0C, UMSEL01);
     16fc:	e2 ec       	ldi	r30, 0xC2	; 194
     16fe:	f0 e0       	ldi	r31, 0x00	; 0
     1700:	80 81       	ld	r24, Z
     1702:	8f 77       	andi	r24, 0x7F	; 127
     1704:	80 83       	st	Z, r24
-	clr_bit(UCSR0C, UMSEL00);
     1706:	80 81       	ld	r24, Z
     1708:	8f 7b       	andi	r24, 0xBF	; 191
     170a:	80 83       	st	Z, r24
-	
-	sei(); //Enables global interrupt
     170c:	78 94       	sei
-}
     170e:	df 91       	pop	r29
     1710:	cf 91       	pop	r28
     1712:	08 95       	ret
 
 00001714 <_ZN6Serial8transmitEPc>:
-			break;
-	}
-}
-
-void Serial::transmit(char *data)
-{
     1714:	fb 01       	movw	r30, r22
-	while(*data != '\0'){
     1716:	90 81       	ld	r25, Z
     1718:	99 23       	and	r25, r25
     171a:	41 f0       	breq	.+16     	; 0x172c <_ZN6Serial8transmitEPc+0x18>
-		while(!(UCSR0A & (1<<UDRE0))); //Waits for empty buffer to transmit
     171c:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
     1720:	85 ff       	sbrs	r24, 5
     1722:	fc cf       	rjmp	.-8      	; 0x171c <_ZN6Serial8transmitEPc+0x8>
-		
-		//Put data into buffer and send data
-		UDR0 = *data;
     1724:	90 93 c6 00 	sts	0x00C6, r25	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
-		data++;
     1728:	31 96       	adiw	r30, 0x01	; 1
-	}
-}
-
-void Serial::transmit(char *data)
-{
-	while(*data != '\0'){
     172a:	f5 cf       	rjmp	.-22     	; 0x1716 <_ZN6Serial8transmitEPc+0x2>
     172c:	08 95       	ret
 
 0000172e <_ZN6Serial12transmitCharEc>:
-	}
-}
-
-void Serial::transmitChar(char data)
-{
-	while(!(UCSR0A & (1<<UDRE0))); //Waits for empty buffer to transmit
     172e:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
     1732:	85 ff       	sbrs	r24, 5
     1734:	fc cf       	rjmp	.-8      	; 0x172e <_ZN6Serial12transmitCharEc>
-	UDR0 = data; //Put data into buffer and send data
     1736:	60 93 c6 00 	sts	0x00C6, r22	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
     173a:	08 95       	ret
 
 0000173c <_ZN6Serial9show_menuEv>:
-}
-
-void Serial::show_menu()
-{
     173c:	cf 93       	push	r28
     173e:	df 93       	push	r29
     1740:	ec 01       	movw	r28, r24
-	this->transmit("0 - Mostrar Lucro");
     1742:	6c e5       	ldi	r22, 0x5C	; 92
     1744:	73 e0       	ldi	r23, 0x03	; 3
     1746:	0e 94 8a 0b 	call	0x1714	; 0x1714 <_ZN6Serial8transmitEPc>
-	this->transmitChar(NEWLINE);
     174a:	6d e0       	ldi	r22, 0x0D	; 13
     174c:	ce 01       	movw	r24, r28
     174e:	0e 94 97 0b 	call	0x172e	; 0x172e <_ZN6Serial12transmitCharEc>
-	
-	this->transmit("1 - Debug");
     1752:	6e e6       	ldi	r22, 0x6E	; 110
     1754:	73 e0       	ldi	r23, 0x03	; 3
     1756:	ce 01       	movw	r24, r28
     1758:	0e 94 8a 0b 	call	0x1714	; 0x1714 <_ZN6Serial8transmitEPc>
-	this->transmitChar(NEWLINE);
     175c:	6d e0       	ldi	r22, 0x0D	; 13
     175e:	ce 01       	movw	r24, r28
     1760:	0e 94 97 0b 	call	0x172e	; 0x172e <_ZN6Serial12transmitCharEc>
-	
-	this->transmit("2 - Sair Debug");
     1764:	68 e7       	ldi	r22, 0x78	; 120
     1766:	73 e0       	ldi	r23, 0x03	; 3
     1768:	ce 01       	movw	r24, r28
     176a:	0e 94 8a 0b 	call	0x1714	; 0x1714 <_ZN6Serial8transmitEPc>
-	this->transmitChar(NEWLINE);
     176e:	6d e0       	ldi	r22, 0x0D	; 13
     1770:	ce 01       	movw	r24, r28
     1772:	0e 94 97 0b 	call	0x172e	; 0x172e <_ZN6Serial12transmitCharEc>
-	
-	this->transmit("3 - Mostrar Ingredientes Restantes");
     1776:	67 e8       	ldi	r22, 0x87	; 135
     1778:	73 e0       	ldi	r23, 0x03	; 3
     177a:	ce 01       	movw	r24, r28
     177c:	0e 94 8a 0b 	call	0x1714	; 0x1714 <_ZN6Serial8transmitEPc>
-	this->transmitChar(NEWLINE);
     1780:	6d e0       	ldi	r22, 0x0D	; 13
     1782:	ce 01       	movw	r24, r28
     1784:	0e 94 97 0b 	call	0x172e	; 0x172e <_ZN6Serial12transmitCharEc>
-	this->transmitChar(NEWLINE);
     1788:	6d e0       	ldi	r22, 0x0D	; 13
     178a:	ce 01       	movw	r24, r28
     178c:	0e 94 97 0b 	call	0x172e	; 0x172e <_ZN6Serial12transmitCharEc>
