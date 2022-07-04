@@ -33,6 +33,7 @@ volatile unsigned int timer1_cicle_counter = 0;
 volatile bool debug_mode = false;
 volatile bool show_ok = false;
 volatile bool stateHandler = false;
+volatile bool stateHandler2 = false;
 
 ISR(INT0_vect)
 {
@@ -54,6 +55,7 @@ ISR(INT1_vect)
 		if(drinkMaker.drink_available == true){
 			lcd.clear();
 			_state = MILLING_COFFEE;
+			stateHandler = false;
 		}
 		else{
 			_state = SELECTING_DRINK;
@@ -104,11 +106,13 @@ ISR(TIMER1_OVF_vect)
 	timer1_cicle_counter++;
 	
 	if(timer1_cicle_counter == 91){
+		show_ok = false;
+		stateHandler = false;
 		serial.transmit("parando moedor");
 		serial.transmitChar(NEWLINE);
 		//drinkMaker.stopMilling();
 		_state = PREPARING_DRINK;
-		stateHandler = false;
+		lcd.clear();
 		timer1_cicle_counter = 0;
 	}
 	
@@ -121,7 +125,6 @@ ISR(TIMER0_OVF_vect)
 	if(timer0_cicle_counter == timer0_cicle_setpoint){
 		serial.transmit("Fechando Valvula");
 		serial.transmitChar(NEWLINE);
-		_delay_ms(100);
 		lcd.clear();
 		_state = REMOVING_GLASS;
 		show_ok = false;
@@ -247,12 +250,12 @@ int main(void)
 					serial.transmitChar(NEWLINE);
 					_delay_ms(100);
 				}
-				if(stateHandler == false){
+				if(stateHandler2 == false){
+					stateHandler2 = true;
 					lcd.clear();
 					setTimerSetPoint(&menu_index);
 					drinkMaker.openValves(&menu_index);
 					TCCR0B = (1<<CS02) | (1<<CS00); //Set prescale 1024 and enables timer 0
-					stateHandler = true;
 				}
 				
 				break;
@@ -263,13 +266,15 @@ int main(void)
 				if(debug_mode == true){
 					serial.transmit("REMOMVING GLASS");
 					serial.transmitChar(NEWLINE);
-					_delay_ms(100);
+					
 				}
-				if(show_ok == false){
-					lcd.write("Retire o Copo");
+				if (show_ok==false)
+				{
+					lcd.clear();
+					lcd.write("Retire o copo");
 					show_ok = true;
 				}
-				
+				_delay_ms(100);
 				if(tst_bit(PINB, PORTB7) == 0){
 					lcd.clear();
 					lcd.write("Obrigado");
@@ -278,6 +283,7 @@ int main(void)
 					_state = WAITING_GLASS;
 					show_ok = false;
 					stateHandler = false;
+					stateHandler2 = false;
 				}
 				break;
 				
@@ -294,6 +300,7 @@ int main(void)
 		}
 		else{
 			clr_bit(PORTC, PORTC5);
+			_state = WAITING_GLASS;
 		}	
 	}
 }

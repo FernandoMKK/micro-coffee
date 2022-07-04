@@ -199,6 +199,7 @@ void DrinkMaker::show_avaliable_drinks()
 		this->available_drinks |= 0b01000000;
 	
 	if(this->debug_mode){
+		serial.transmitChar(NEWLINE);
 		serial.transmit("Bebida Indisponivel");
 		serial.transmitChar(NEWLINE);
 		
@@ -226,9 +227,10 @@ void DrinkMaker::show_avaliable_drinks()
 			}
 			
 			lcd.write(buf);
-			lcd.write(",");
+			lcd.write(" ");
 		}
 	}
+	_delay_ms(1000);
 }
 
 void DrinkMaker::show_profit()
