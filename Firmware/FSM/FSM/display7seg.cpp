@@ -28,6 +28,13 @@ void Display7seg::attachToPorts(unsigned char d0, unsigned char d1, unsigned cha
 void Display7seg::updateDisplay(volatile unsigned char *num)
 {
 	switch(*num){
+		case 0:
+		clr_bit(PORTC, PORTC0);
+		clr_bit(PORTC, PORTC1);
+		clr_bit(PORTC, PORTC2);
+		clr_bit(PORTC, PORTC3);
+		break;
+		
 		case 1:
 		set_bit(PORTC, PORTC0);
 		clr_bit(PORTC, PORTC1);

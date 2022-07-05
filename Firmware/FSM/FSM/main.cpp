@@ -159,6 +159,65 @@ void setTimerSetPoint(volatile unsigned char *menu_index)
 	}
 }
 
+//Reset Function to abort the process by removing the glass
+void reset()
+{
+	
+	TCCR2B = 0; //Motor disabled
+	TCCR1B = 0; //TC1 disabled
+	TCCR0B = 0; //TC0 disabled
+	
+	drinkMaker.closeValves();
+	
+	//Set first state
+	_state = WAITING_GLASS;
+	
+	//Reset flags and handles
+	show_ok = false;
+	stateHandler = false;
+	stateHandler2 = false;	
+	
+	//Reset counters
+	timer0_cicle_counter = 0;
+	timer0_cicle_setpoint = 0;
+	timer1_cicle_counter = 0;
+	
+	lcd.clear();
+	lcd.write("Processo");
+	lcd.setCursor_inLine(2);
+	lcd.write("Abortado");
+	_delay_ms(1000);
+	lcd.clear();
+}
+
+//Reset Function to abort the process by shutting down the machine
+void reset2()
+{
+	TCCR2B = 0; //Motor disabled
+	TCCR1B = 0; //TC1 disabled
+	TCCR0B = 0; //TC0 disabled
+	
+	drinkMaker.closeValves();
+	
+	//Set first state
+	_state = WAITING_GLASS;
+	
+	//Reset flags and handles
+	show_ok = false;
+	stateHandler = false;
+	stateHandler2 = false;
+	
+	//Reset counters
+	timer0_cicle_counter = 0;
+	timer0_cicle_setpoint = 0;
+	timer1_cicle_counter = 0;
+	
+	lcd.clear();
+	
+	menu_index = 0;
+	_7seg.updateDisplay(&menu_index);
+}
+
 int main(void)
 {
 	lcd.init(); //Initializes LCD
@@ -205,118 +264,130 @@ int main(void)
 			set_bit(PORTC, PORTC5); //Turns on LED on/off.
 			switch(_state){
 				case WAITING_GLASS:
-				if(debug_mode == true){
-					serial.transmit("WAINTING GLASS");
-					serial.transmitChar(NEWLINE);
-					_delay_ms(100);
-				}
-				if(show_ok == false){
-					lcd.write("Insira o copo");
-					show_ok = true;
-				}
+					if(debug_mode == true){
+						serial.transmit("WAINTING GLASS");
+						serial.transmitChar(NEWLINE);
+						_delay_ms(100);
+					}
+					if(show_ok == false){
+						lcd.write("Insira o copo");
+						show_ok = true;
+					}
 				
-				//If the glass is present
-				if(tst_bit(PINB, PORTB7) > 0){
-					_state = SELECTING_DRINK;
-					show_ok = false;
-				}
+					//If the glass is present
+					if(tst_bit(PINB, PORTB7) > 0){
+						_state = SELECTING_DRINK;
+						show_ok = false;
+					}
+				break;
 				
 				case SELECTING_DRINK:
-				if(debug_mode == true){
-					serial.transmit("SELECTING DRINK");
-					serial.transmitChar(NEWLINE);
-					_delay_ms(100);
-				}
-				if(show_ok == false){
-					lcd.clear();
-					lcd.write("Selecione bebida");
-					show_ok = true;
-				}
+					if(debug_mode == true){
+						serial.transmit("SELECTING DRINK");
+						serial.transmitChar(NEWLINE);
+						_delay_ms(100);
+					}
+					if(show_ok == false){
+						lcd.clear();
+						lcd.write("Selecione bebida");
+						show_ok = true;
+					}
+					
+					if(tst_bit(PINB, PORTB7) == 0){
+						reset();
+					}
 				break;
 				
 				case MILLING_COFFEE:
-				if(debug_mode == true){
-					serial.transmit("MILLING_COFFEE");
-					serial.transmitChar(NEWLINE);
-					_delay_ms(100);
-				}
-				if(stateHandler == false){
-					if(drinkMaker.drinkHasCoffee(&menu_index)){ //Verifies if the selected drink has coffee to mill
-						stateHandler = true;
-						drinkMaker.millCoffee(); //Enables the motor to mill the coffee
-						TCCR1B = (1<<CS11); //Set TC1 prescale 8 and enables timer
+					if(debug_mode == true){
+						serial.transmit("MILLING_COFFEE");
+						serial.transmitChar(NEWLINE);
+						_delay_ms(100);
 					}
-					else{
-						lcd.clear();
-						_state = PREPARING_DRINK;
-						show_ok = false;
+					if(stateHandler == false){
+						if(drinkMaker.drinkHasCoffee(&menu_index)){ //Verifies if the selected drink has coffee to mill
+							stateHandler = true;
+							drinkMaker.millCoffee(); //Enables the motor to mill the coffee
+							TCCR1B = (1<<CS11); //Set TC1 prescale 8 and enables timer
+						}
+						else{
+							lcd.clear();
+							_state = PREPARING_DRINK;
+							show_ok = false;
+						}
 					}
-				}
 				
+					if(tst_bit(PINB, PORTB7) == 0){
+						reset();
+					}
 				break;
 				
 				case PREPARING_DRINK:
-				TCCR2B = 0; //Motor disabled
-				TCCR1B = 0; //TC1 disabled
-				if(debug_mode == true){
-					serial.transmit("PREPARING DRINK");
-					serial.transmitChar(NEWLINE);
-					_delay_ms(100);
-				}
-				if(stateHandler2 == false){
-					stateHandler2 = true;
-					lcd.clear();
-					setTimerSetPoint(&menu_index); //Sets the set-point to open the valves
-					drinkMaker.openValves(&menu_index); //Open the respective valves
-					TCCR0B = (1<<CS02) | (1<<CS00); //Set prescale 1024 and enables timer 0
-				}
+					TCCR2B = 0; //Motor disabled
+					TCCR1B = 0; //TC1 disabled
+					if(debug_mode == true){
+						serial.transmit("PREPARING DRINK");
+						serial.transmitChar(NEWLINE);
+						_delay_ms(100);
+					}
+					if(stateHandler2 == false){
+						stateHandler2 = true;
+						lcd.clear();
+						setTimerSetPoint(&menu_index); //Sets the set-point to open the valves
+						drinkMaker.openValves(&menu_index); //Open the respective valves
+						TCCR0B = (1<<CS02) | (1<<CS00); //Set prescale 1024 and enables timer 0
+					}
+				
+					if(tst_bit(PINB, PORTB7) == 0){
+						reset();
+					}
 				
 				break;
 				
 				case REMOVING_GLASS:
-				TCCR0B = 0; //TC0 disabled
-				drinkMaker.closeValves(); //Close all the valves
-				if(debug_mode == true){
-					serial.transmit("REMOMVING GLASS");
-					serial.transmitChar(NEWLINE);
+					TCCR0B = 0; //TC0 disabled
+					drinkMaker.closeValves(); //Close all the valves
+					if(debug_mode == true){
+						serial.transmit("REMOMVING GLASS");
+						serial.transmitChar(NEWLINE);
 					
-				}
-				if (show_ok==false)
-				{
-					lcd.clear();
-					lcd.write("Retire o copo");
-					show_ok = true;
-				}
+					}
+					if (show_ok==false)
+					{
+						lcd.clear();
+						lcd.write("Retire o copo");
+						show_ok = true;
+					}
 				
-				_delay_ms(100); //Avoids USART spam
+					_delay_ms(100); //Avoids USART spam
 				
-				//If the glass was removed
-				if(tst_bit(PINB, PORTB7) == 0){
-					lcd.clear();
-					lcd.write("Obrigado");
-					_delay_ms(1000);
-					lcd.clear();
-					_state = WAITING_GLASS;
-					show_ok = false;
-					stateHandler = false;
-					stateHandler2 = false;
-				}
+					//If the glass was removed
+					if(tst_bit(PINB, PORTB7) == 0){
+						lcd.clear();
+						lcd.write("Obrigado");
+						_delay_ms(1000);
+						lcd.clear();
+						_state = WAITING_GLASS;
+						show_ok = false;
+						stateHandler = false;
+						stateHandler2 = false;
+					}
 				break;
 				
 				case REFUELLING_MACHINE:
-				if(debug_mode == true){
-					serial.transmit("REFUELLING_MACHINE");
-					serial.transmitChar(NEWLINE);
-					_delay_ms(100);
-				}
-				drinkMaker.refuel(); //Refuel the machine
-				_state = WAITING_GLASS;
+					if(debug_mode == true){
+						serial.transmit("REFUELLING_MACHINE");
+						serial.transmitChar(NEWLINE);
+						_delay_ms(100);
+					}
+					drinkMaker.refuel(); //Refuel the machine
+					_state = WAITING_GLASS;
 				break;
 			}
 		}
 		else{
 			clr_bit(PORTC, PORTC5); //Turn off the on-off led
-			_state = WAITING_GLASS;
+			reset2(); //Resets the machine
 		}	
 	}
 }
