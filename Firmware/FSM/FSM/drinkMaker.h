@@ -52,15 +52,12 @@ class DrinkMaker
 		Valve coffee_valve, milk_valve, chocolate_valve;
 		LCD lcd;
 		
-		unsigned char coffee;
-		unsigned char milk;
-		unsigned char chocolate;
+		float coffee;
+		float milk;
+		float chocolate;
 		unsigned char available_drinks;
 		
-		
 		float money;
-		
-		
 };
 
 #endif /* DRINKMAKER_H_ */

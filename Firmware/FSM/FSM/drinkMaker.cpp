@@ -45,7 +45,7 @@ void DrinkMaker::makeDrink(volatile unsigned char *drink_index)
 {
 	switch(*drink_index){
 		case 1:
-			if(this->coffee > 0){
+			if(this->coffee >= 1){
 				this->coffee--;
 				this->money += 1.50;
 				
@@ -64,9 +64,9 @@ void DrinkMaker::makeDrink(volatile unsigned char *drink_index)
 			break;
 			
 		case 2:
-			if(this->coffee > 0 && this->milk > 0){
-				this->coffee--;
-				this->milk--;
+			if(this->coffee >= 0.50 && this->milk > 0.50){
+				this->coffee -= 0.50;
+				this->milk -= 0.50;
 				this->money += 2.00;
 				
 				if(this->debug_mode){
@@ -83,10 +83,10 @@ void DrinkMaker::makeDrink(volatile unsigned char *drink_index)
 			break;
 			
 		case 3:
-			if(this->coffee > 0 && this->milk > 0 && this->chocolate > 0){
-				this->coffee--;
-				this->milk--;
-				this->chocolate--;
+			if(this->coffee >= 0.33 && this->milk >= 0.33 && this->chocolate >= 0.33){
+				this->coffee -= 0.33;
+				this->milk -= 0.33;
+				this->chocolate -= 0.33;
 				this->money += 2.75;
 				
 				if(this->debug_mode){
@@ -103,7 +103,7 @@ void DrinkMaker::makeDrink(volatile unsigned char *drink_index)
 			break;
 			
 		case 4:
-			if(this->milk > 0){
+			if(this->milk >= 1){
 				this->milk--;
 				this->money += 1.00;
 				
@@ -121,9 +121,9 @@ void DrinkMaker::makeDrink(volatile unsigned char *drink_index)
 			break;
 			
 		case 5:
-			if(this->milk > 0 && this->chocolate > 0){
-				this->milk--;
-				this->chocolate--;
+			if(this->milk >= 0.50 && this->chocolate >= 0.50){
+				this->milk -= 0.50;
+				this->chocolate -= 0.50;
 				this->money += 1.80;
 				
 				if(this->debug_mode){
@@ -140,7 +140,7 @@ void DrinkMaker::makeDrink(volatile unsigned char *drink_index)
 			break;
 			
 		case 6:
-			if(this->chocolate > 0){
+			if(this->chocolate >= 1){
 				this->chocolate--;
 				this->money += 1.50;
 				
@@ -158,9 +158,9 @@ void DrinkMaker::makeDrink(volatile unsigned char *drink_index)
 			break;
 			
 		case 7:
-			if(this->coffee > 0 && this->chocolate > 0){
-				this->coffee--;
-				this->chocolate--;
+			if(this->coffee >= 0.50 && this->chocolate >= 0.50){
+				this->coffee -= 0.50;
+				this->chocolate -= 0.50;
 				this->money += 2.10;
 				
 				if(this->debug_mode){
@@ -183,19 +183,19 @@ void DrinkMaker::show_avaliable_drinks()
 	char buf[10];
 	this->available_drinks = 0b00000000; //Reset available drinks flag
 	
-	if(this->coffee > 0)
+	if(this->coffee >= 1)
 		this->available_drinks |= 0b00000001;	
-	if(this->coffee > 0 && this->milk > 0)
+	if(this->coffee >= 0.50 && this->milk >= 0.50)
 		this->available_drinks |= 0b00000010;
-	if(this->coffee > 0 && this->milk > 0 && this->chocolate > 0)
+	if(this->coffee >= 0.33 && this->milk >= 0.33 && this->chocolate >= 0.33)
 		this->available_drinks |= 0b00000100;
-	if(this->milk > 0)
+	if(this->milk >= 1)
 		this->available_drinks |= 0b00001000;
-	if(this->milk > 0 && this->chocolate > 0)
+	if(this->milk >= 0.50 && this->chocolate >= 0.50)
 		this->available_drinks |= 0b00010000;
-	if(this->chocolate > 0)
+	if(this->chocolate >= 1)
 		this->available_drinks |= 0b00100000;
-	if(this->coffee > 0 && this->chocolate > 0)
+	if(this->coffee >= 0.50 && this->chocolate >= 0.50)
 		this->available_drinks |= 0b01000000;
 	
 	if(this->debug_mode){
@@ -235,20 +235,30 @@ void DrinkMaker::show_avaliable_drinks()
 
 void DrinkMaker::show_remaining_ingredients()
 {
-	char buf[2];
+	char buf[10];
+	
 	serial.transmitChar(NEWLINE);
 	serial.transmit("Cafe restante: ");
-	sprintf(buf, "%d", this->coffee);
+	int coffeeInt = int(this->coffee);
+	float coffeeFrac = this->coffee - coffeeInt;
+	int coffeeIntFrac = trunc(coffeeFrac*100);
+	sprintf(buf, "%d.%02d", coffeeInt, coffeeIntFrac);
 	serial.transmit(buf);
 	
 	serial.transmitChar(NEWLINE);
 	serial.transmit("Leite restante: ");
-	sprintf(buf, "%d", this->milk);
+	int milkInt = int(this->milk);
+	float milkFrac = this->milk - milkInt;
+	int milkIntFrac = trunc(milkFrac*100);
+	sprintf(buf, "%d.%02d", milkInt, milkIntFrac);
 	serial.transmit(buf);
 	
 	serial.transmitChar(NEWLINE);
 	serial.transmit("Chocolate restante: ");
-	sprintf(buf, "%d", this->chocolate);
+	int chocolateInt = int(this->chocolate);
+	float chocolateFrac = this->chocolate - chocolateInt;
+	int chocolateIntFrac = trunc(chocolateFrac*100);
+	sprintf(buf, "%d.%02d", chocolateInt, chocolateIntFrac);
 	serial.transmit(buf);
 	serial.transmitChar(NEWLINE);
 }
